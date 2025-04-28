@@ -16,12 +16,12 @@ from datasets.SequenceDataset import SequenceDataset
 from models.TrajectoryPredictor import TrajectoryPredictor
 from losses.combined_loss import combined_loss
 from utils import get_device
+from data.config import Config
 
 
 # Playback settings
 PLAYBACK_FPS = 25
 SEQ_LEN = 5       # number of past frames to stack
-N_POINTS = int(3e4)  # points per cloud
 BATCH_SIZE = 32   # inference batch size
 CHECKPOINT_DIR = Path("checkpoints")
 ANIM_PATH = Path("traj_anim.mp4")
@@ -211,8 +211,13 @@ def create_animation(
         # Draw arrows: ground truth (red) and prediction (blue)
         for ax, vec_gt, vec_pr in ((ax1, gt_vectors[i], pred_vectors[i]),
                                    (ax2, gt_vectors[i], pred_vectors[i])):
-            arrow_gt = ax.quiver(0, 0, 0, *vec_gt, length=4, normalize=True)
-            arrow_pr = ax.quiver(0, 0, 0, *vec_pr, length=4, normalize=True)
+            arrow_gt = ax.quiver(0, 0, 0, *vec_gt, length=4, color='red', normalize=True, label='Ground Truth')
+            arrow_pr = ax.quiver(0, 0, 0, *vec_pr, length=4, color='blue', normalize=True, label='Prediction')
+
+            # Add legend if not already added
+            if not hasattr(ax, '_legend_added'):
+                ax.legend(loc='upper left')
+                ax._legend_added = True
             animate.artists.extend([arrow_gt, arrow_pr])
 
         return (scatter1, scatter2) + tuple(animate.artists)
@@ -238,10 +243,11 @@ def main():
     computes statistics, and visualizes results.
     """
     device = get_device()
+    cfg = Config()
     inf_loader = prepare_dataset(
         data_path="SemanticKITTI_00/",
         seq_len=SEQ_LEN,
-        n_points=N_POINTS
+        n_points=cfg.n_points
     )
     model = load_model(CHECKPOINT_DIR, device)
 
