@@ -144,9 +144,14 @@ This will:
 - **Loss Weights**: Change `(w_dist, w_dir)` in `loss.py`’s `combined_loss`.
 - **Model Variants**: Swap encoder or tweak LSTM size in `model.py`.
 
+## Result Table
+Over the test set, the model achieved the following metrics:
+| Metric                                                  | Min     | Max     | Avg     |
+|---------------------------------------------------------|---------|---------|---------|
+| Combined Loss (50% mse 50% cosine similarity)           | 0.0009  | 0.2908  | 0.0519  |
+| Angle Error (degrees)                                   | 0.0198  | 9.0369  | 0.9129  |
+| Length Error (meters)                                   | 0.0000  | 0.5815  | 0.1013  |
+
 ## Cool Training Curves
 
 ![Training Curves](imgs/train_curves.png)
-
-## Full Video
-[![Full Video](https://img.youtube.com/vi/TXlQMv4obH8/0.jpg)](https://www.youtube.com/watch?v=TXlQMv4obH8)
