@@ -5,8 +5,7 @@ This repository is a project to predict vehicle trajectories using sequential Li
 It uses a PointNet encoder to extract features from point clouds, followed by an LSTM to predict future trajectories. The model is trained using a combination of distance and direction loss functions.
 The training process is visualized live using Matplotlib, and checkpoints are saved automatically.
 
-![Trajectory Prediction on Test Dataset Demo](imgs/test.gif)
-![Higher Resolution](imgs/test.mp4)
+![Trajectory Prediction on Test Dataset Demo](https://i.imgur.com/6lHg7Lm.mp4)
 
 I had to balance the dataset as the original data is heavily imbalanced, with most sequences having the vehicle moving straight. I implemented a custom dataset class to sample sequences with a balanced distribution of turns and straight paths (>3 absolute degrees over x axis).
 
